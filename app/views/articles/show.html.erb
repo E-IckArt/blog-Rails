@@ -1,3 +1,5 @@
+<p style="color: green"><%= notice %></p>
+
 <h1><%= @article.title %></h1>
 <p><%= @article.body %></p>
 
@@ -8,6 +10,46 @@
     turbo_confirm: "Are you sure?"
   } %></li>
 </ul>
+
+<h2>Comments</h2>
+<% @article.comments.each do |comment| %>
+  <p>
+    <strong>Comment :</strong>
+    <%= comment.comment %>
+  </p>
+
+  <p>
+    <%= comment.body %>
+  </p>
+<% end %>
+
+<h2>Add a comment</h2>
+
+<%# if @comment %>
+<%= form_with model: [ @article, @comment] do |form| %>
+
+  <div>
+    <%= form.label :comment %><br>
+    <%= form.text_field :comment %>
+    <% @comment.errors.full_messages_for(:comment).each do |message| %>
+      <div style="color: red"><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
+    <% @comment.errors.full_messages_for(:body).each do |message| %>
+      <div style="color: red"><%= message %></div>
+    <% end %>
+  </div>
+
+  <%= form.hidden_field :article_id %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
 
 <%= link_to "Home", root_path %>
 <%= link_to "Articles", articles_path %>
