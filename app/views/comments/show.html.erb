@@ -1,0 +1,9 @@
+<p style="color: green"><%= notice %></p>
+
+<% unless @comment.archived? %>
+<%= render @comment %>
+<div>
+  <%= link_to "Back to comments", article_comments_path %>
+</div>
+
+<% end %>

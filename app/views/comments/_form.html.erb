@@ -1,0 +1,29 @@
+<%= form_with model: [ @article, @comment] do |form| %>
+
+  <p>
+    <%= form.label :comment %><br>
+    <%= form.text_field :comment %>
+    <% @comment.errors.full_messages_for(:comment).each do |message| %>
+    <div style="color: red"><%= message %></div>
+  <% end %>
+  </p>
+
+  <p>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
+    <% @comment.errors.full_messages_for(:body).each do |message| %>
+    <div style="color: red"><%= message %></div>
+  <% end %>
+  </p>
+
+  <%= form.hidden_field :article_id %>
+
+  <div>
+    <%= form.label :status %><br>
+    <%= form.select :status, ['public', 'private', 'archived'], selected: 'public' %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

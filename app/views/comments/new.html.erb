@@ -1,0 +1,13 @@
+<%= link_to "Home", root_path %>
+<%= link_to "Articles", articles_path %>
+<br>
+
+<h1>New comment</h1>
+
+<%= render "form", comment: @comment %>
+
+<br>
+
+<div>
+  <%= link_to "Back to article", article_path(@article) %>
+</div>

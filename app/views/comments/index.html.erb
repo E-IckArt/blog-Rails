@@ -1,0 +1,12 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Comments</h1>
+
+<div id="comments">
+  <% @comments.each do |comment| %>
+    <%= render comment %>
+    <%= link_to "Show this comment", article_comment_path(comment.article_id,comment.id)%>
+<% end %>
+</div>
+<br>
+<%= link_to "Go back to the article", article_path(@article) %>
