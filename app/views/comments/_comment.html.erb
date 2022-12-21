@@ -1,12 +1,22 @@
 <div id="<%= dom_id comment %>">
-  <p>
-    <strong>Comment:</strong>
-    <%= comment.comment %>
-  </p>
 
-  <p>
-    <strong>Body:</strong>
-    <%= comment.body %>
-  </p>
+  <% unless comment.archived? %>
+    <% if comment.persisted? %>
+    <p style="color: blue">
+      <strong>Comment:</strong>
+      <%= comment.comment %>
+    </p>
 
+    <p>
+      <strong>Body:</strong>
+      <%= comment.body %>
+    </p>
+
+    <%= link_to "Edit this comment", edit_article_comment_path(comment.article_id,comment.id) %>
+    <%= link_to "Delete this comment", [comment.article, comment], data: {
+      turbo_method: :delete,
+      turbo_confirm: "Are you sure?"
+    } %>
+    <% end %>
+  <% end %>
 </div>
