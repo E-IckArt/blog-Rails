@@ -1,29 +1,26 @@
-<%= form_with(model: [ @article, @comment]) do |form| %>
-  <% if comment.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+<%= form_with model: [ @article, @comment] do |form| %>
 
-      <ul>
-        <% comment.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div>
-    <%= form.label :comment, style: "display: block" %>
+  <p>
+    <%= form.label :comment %><br>
     <%= form.text_field :comment %>
-  </div>
+    <% @comment.errors.full_messages_for(:comment).each do |message| %>
+    <div style="color: red"><%= message %></div>
+  <% end %>
+  </p>
 
-  <div>
-    <%= form.label :body, style: "display: block" %>
+  <p>
+    <%= form.label :body %><br>
     <%= form.text_area :body %>
-  </div>
+    <% @comment.errors.full_messages_for(:body).each do |message| %>
+    <div style="color: red"><%= message %></div>
+  <% end %>
+  </p>
+
+  <%= form.hidden_field :article_id %>
 
   <div>
-    <%= form.label :articles_id, style: "display: block" %>
-    <%= form.text_field :articles_id %>
+    <%= form.label :status %><br>
+    <%= form.select :status, ['public', 'private', 'archived'], selected: 'public' %>
   </div>
 
   <div>
