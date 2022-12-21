@@ -1,24 +1,29 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show edit update destroy ]
 
-  # GET /comments or /comments.json
+  # GET articles/:article_id/comments or articles/:article_id/comments.json
   def index
     @comments = Comment.all
+    @article = Article.find(params[:article_id])
   end
 
-  # GET /comments/1 or /comments/1.json
+  # GET articles/:article_id/comments/:id or articles/:article_id/comments/:id.json
   def show
+    @article = Article.find(params[:article_id])
+    @comment = @article.comments.find(params[:id])
   end
 
-  # GET /comments/new
+  # GET articles/:article_id/comments/new
   def new
   end
 
-  # GET /comments/1/edit
+  # GET articles/:article_id/comments/:id/edit
   def edit
+    @article = Article.find(params[:article_id])
+    @comment = @article.comments.find(params[:id])
   end
 
-  # POST /comments or /comments.json
+  # POST articles/:article_id/comments or articles/:article_id/comments.json
   def create
     @article = Article.find(params[:article_id])
     @comment = Comment.new(comment_params)
@@ -28,16 +33,19 @@ class CommentsController < ApplicationController
     if @comment.save
       redirect_to article_path(@article), notice: "Comment was successfully created."
     else
-
       render 'articles/show', status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /comments/1 or /comments/1.json
+  # PATCH/PUT articles/:article_id/comments/:id or articles/:article_id/comments/:id.json
+
   def update
+    @article = Article.find(params[:article_id])
+    @comment = @article.comments.find(params[:id])
+
     respond_to do |format|
       if @comment.update(comment_params)
-        format.html { redirect_to article_comments_url(@comment), notice: "Comment was successfully updated." }
+        format.html { redirect_to article_comments_path(@comment), notice: "Comment was successfully updated." }
         format.json { render :show, status: :ok, location: @comment }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -46,14 +54,12 @@ class CommentsController < ApplicationController
     end
   end
 
-  # DELETE /comments/1 or /comments/1.json
+  # DELETE articles/:article_id/comments/:id or articles/:article_id/comments/:id.json
   def destroy
+    @article = Article.find(params[:article_id])
+    @comment = @article.comments.find(params[:id])
     @comment.destroy
-
-    respond_to do |format|
-      format.html { redirect_to article_comments_url, notice: "Comment was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to article_path(@article), status: :see_other
   end
 
   private
@@ -64,6 +70,6 @@ class CommentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def comment_params
-      params.require(:comment).permit(:comment, :body, :article_id)
+      params.require(:comment).permit(:comment, :body, :article_id, :status)
     end
 end
