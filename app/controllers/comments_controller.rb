@@ -1,6 +1,8 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show edit update destroy ]
 
+  http_basic_authenticate_with name: "emilie", password: "s3cr3t", only:  [:edit, :destroy]
+
   # GET articles/:article_id/comments or articles/:article_id/comments.json
   def index
     @comments = Comment.all
