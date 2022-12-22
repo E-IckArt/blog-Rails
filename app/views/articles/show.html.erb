@@ -17,9 +17,13 @@
 </ul>
 
 <h2>Comments</h2>
+
+<p>
+  <span><%= Comment.public_count %> Comments </span>
+  <%= link_to "See more comments", article_comments_path(@article) %>
+</p>
+
 <%= render @article.comments %>
-  <br>
-  <%= link_to "See all comments", article_comments_path(@article) %>
 
 <h2>Add a comment</h2>
 <%= render 'comments/form' %>
